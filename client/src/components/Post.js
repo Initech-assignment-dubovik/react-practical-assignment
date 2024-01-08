@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {deletePost, updatePost} from "../redux/api";
 import {putPageAction, rerenderAction} from "../redux/actions/postActions";
 import {Stack} from "react-bootstrap";
-import Comment from "./Comment";
+import Comments from "./Comments";
 
 const Post = ({content, countPosts, currentPage}) => {
     const {username} = useSelector(state => state.user);
@@ -60,7 +60,7 @@ const Post = ({content, countPosts, currentPage}) => {
                 <div className="card-body">
                     <h5 className="card-title">{post.title} - {post.username}</h5>
                     <Stack direction="horizontal" gap={2}>
-                        <Comment key={post.id} content={post}/>
+                        <Comments key={post.id} content={post}/>
                         {username === post.username && (<>
                             <div role="button" className="p-2 ms-auto text-decoration-underline">edit</div>
                             <div role="button" className="p-2 text-decoration-underline"

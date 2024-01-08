@@ -10,9 +10,7 @@ const Gallery = () => {
     const dispatch = useDispatch();
 
     useEffect(async () => {
-        console.log("rerender - " + rerender);
         if (keyword) {
-            console.log("Get posts by keyword " + keyword);
             searchPosts(keyword)
                 .then(data => ({
                     posts: data.result,
@@ -27,7 +25,6 @@ const Gallery = () => {
                     page: data.page
                 }))
                 .then(data => {
-                    console.log("Get posts of page " + page);
                     dispatch(putPostsAction(data))
                 })
         }

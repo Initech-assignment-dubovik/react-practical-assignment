@@ -35,14 +35,11 @@ const ModalPost = ({content}) => {
     const displayImage = (newPicture) => {
         if (newPicture) {
             const reader = new FileReader();
-            console.log("In displayImage");
             reader.onload = function (e) {
                 const selectedImage = document.getElementById('selectedImage');
                 selectedImage.src = e.target.result;
-                console.log("Above set block");
                 selectedImage.style.display = 'block';
             };
-
             reader.readAsDataURL(newPicture);
         }
     }
