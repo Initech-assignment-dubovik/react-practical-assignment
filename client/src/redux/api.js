@@ -32,11 +32,6 @@ export const getPostsByPage = (page) => {
         .then(response => response.json())
 }
 
-export const getAllPosts = () => {
-    return fetch(`${BASE_URL}${POST}`)
-        .then(response => response.json())
-}
-
 export const deletePost = (id) => {
     return fetch(`${BASE_URL}${POST}${id}`, {
         method: "DELETE"
@@ -63,5 +58,42 @@ export const createComment = (text, postId, username) => {
         },
         body: JSON.stringify(newComment)
     })
+        .then(response => response.json())
+}
+
+export const updateComment = (comment) => {
+    return fetch(`${BASE_URL}${COMMENT}${comment.id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(comment)
+    })
+}
+
+export const deleteComment = (id) => {
+    return fetch(`${BASE_URL}${COMMENT}${id}`, {
+        method: "DELETE"
+    })
+        .then(response => response.json())
+}
+
+export const getPosts = () => {
+    return fetch(`${BASE_URL}${POST}`)
+        .then(response => response.json())
+}
+
+export const getPost = (id) => {
+    return fetch(`${BASE_URL}${POST}${id}`)
+        .then(response => response.json())
+}
+
+export const getComment = (id) => {
+    return fetch(`${BASE_URL}${COMMENT}${id}`)
+        .then(response => response.json())
+}
+
+export const getComments = () => {
+    return fetch(`${BASE_URL}${COMMENT}`)
         .then(response => response.json())
 }
