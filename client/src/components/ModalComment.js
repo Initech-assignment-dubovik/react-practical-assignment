@@ -3,9 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import {Form} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
-import {createComment, getAllPosts} from "../redux/api";
-import {rerenderAction} from "../redux/actions/postActions";
-import comment from "./Comment";
+import {createComment} from "../redux/api";
 
 const ModalComment = ({post, setPost}) => {
     const [show, setShow] = useState(false);
