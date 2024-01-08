@@ -1,18 +1,24 @@
 import React, {useState} from 'react';
 import {Stack} from "react-bootstrap";
-import {useSelector} from "react-redux";
-import {updateComment, updatePost} from "../redux/api";
-import data from "bootstrap/js/src/dom/data";
+import {useDispatch, useSelector} from "react-redux";
+import {deleteComment, updateComment} from "../redux/api";
+import {rerenderAction} from "../redux/actions/postActions";
 
-const Comment = ({comment}) => {
+const Comment = ({comment, post, setPost}) => {
     const {username} = useSelector(state => state.user);
     const [currentComment, setCurrentComment] = useState(comment);
+    const dispatch = useDispatch();
 
     function handleRemoveLike() {
-
+        comment.likes = comment.likes.filter(e => e !== username);
+        updateComment(comment)
+            .then(data => {
+                console.log(data);
+                setCurrentComment(data.result);
+            });
     }
 
-    function handleSetLike(id) {
+    function handleSetLike() {
         comment.dislikes = comment.dislikes.filter(e => e !== username);
         comment.likes = [...comment.likes, username];
         console.log(comment);
@@ -23,16 +29,36 @@ const Comment = ({comment}) => {
             });
     }
 
-    function handleRemoveDislike(id) {
-
+    function handleRemoveDislike() {
+        comment.dislikes = comment.dislikes.filter(e => e !== username);
+        updateComment(comment)
+            .then(data => {
+                console.log(data);
+                setCurrentComment(data.result);
+            });
     }
 
-    function handleSetDislike(id) {
-
+    function handleSetDislike() {
+        comment.likes = comment.likes.filter(e => e !== username);
+        comment.dislikes = [...comment.dislikes, username];
+        console.log(comment);
+        updateComment(comment)
+            .then(data => {
+                console.log(data);
+                setCurrentComment(data.result);
+            });
     }
 
-    function handleDeleteComment(id) {
-
+    function handleDeleteComment() {
+        console.log(comment.id);
+        deleteComment(comment.id)
+            .then(() => {
+                let updatedComments = [...post.comments];
+                updatedComments = updatedComments.filter(e => e.id !== comment.id);
+                const newPost = { ...post, comments: updatedComments };
+                setPost(newPost);
+                // dispatch(rerenderAction());
+            })
     }
 
     return (

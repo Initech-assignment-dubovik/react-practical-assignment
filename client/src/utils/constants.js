@@ -5,5 +5,5 @@ export const SEARCH = 'search/'
 export const COMMENT = 'comment/'
 export const PICTURE = '/picture'
 
-export const ADD_POST = 'Add post'
-export const ADD_COMMENT = 'Add comment'
+export const ADD_POST = 'ADD_POST'
+export const ADD_COMMENT = 'ADD_COMMENT'

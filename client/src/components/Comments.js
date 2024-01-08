@@ -37,7 +37,7 @@ const Comments = ({content}) => {
                     <h5 className="pt-3">Comments:</h5>
                     <div className="overflow-auto" style={{maxHeight: '300px'}}>
                         {post.comments.map((comment) => (
-                            <Comment key={comment.id} comment={comment} setPost={setPost}/>
+                            <Comment key={comment.id} comment={comment} post={post} setPost={setPost}/>
                         ))}
                     </div>
                     <ModalComment post={post} setPost={setPost}/>

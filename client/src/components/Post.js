@@ -8,7 +8,6 @@ import Comments from "./Comments";
 
 const Post = ({content, countPosts, currentPage}) => {
     const {username} = useSelector(state => state.user);
-    const {keyword} = useSelector(state => state.post);
     const [post, setPost] = useState(content);
     const dispatch = useDispatch();
 

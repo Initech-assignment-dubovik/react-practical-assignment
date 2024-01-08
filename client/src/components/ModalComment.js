@@ -8,7 +8,7 @@ import {createComment} from "../redux/api";
 const ModalComment = ({post, setPost}) => {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const handleShow = ({}) => setShow(true);
 
     const username = useSelector(state => state.user.username);
     const dispatch = useDispatch();

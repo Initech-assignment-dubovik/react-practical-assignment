@@ -47,7 +47,7 @@ const ModalPost = ({content}) => {
     return (
         <div>
             <Button variant="primary" onClick={handleShow}>
-                {ADD_POST}
+                Add post
             </Button>
 
             <Modal
