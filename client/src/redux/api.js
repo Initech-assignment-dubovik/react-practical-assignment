@@ -69,6 +69,7 @@ export const updateComment = (comment) => {
         },
         body: JSON.stringify(comment)
     })
+        .then(response => response.json());
 }
 
 export const deleteComment = (id) => {
