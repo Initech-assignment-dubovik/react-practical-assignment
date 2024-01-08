@@ -7,6 +7,7 @@ import ModalComment from "./ModalComment";
 const Comment = ({content}) => {
     const {username} = useSelector(state => state.user);
     const [show, setShow] = useState(false);
+    const [post, setPost] = useState(content);
 
     return (
         <>
@@ -14,7 +15,7 @@ const Comment = ({content}) => {
                 role="button"
                 className="p-2 text-decoration-underline"
                 onClick={() => setShow(true)}
-            >Comments ({content.comments.length})
+            >Comments ({post.comments.length})
             </div>
 
             <Modal
@@ -25,7 +26,7 @@ const Comment = ({content}) => {
             >
                 <Modal.Header closeButton>
                     <Modal.Title id="example-custom-modal-styling-title">
-                        {content.title} - {content.username}
+                        {post.title} - {post.username}
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -35,7 +36,7 @@ const Comment = ({content}) => {
                     </div>
                     <h5 className="pt-3">Comments:</h5>
                     <div className="overflow-auto" style={{maxHeight: '300px'}}>
-                        {content.comments.map((comment, index) => (
+                        {post.comments.map((comment, index) => (
                             <div key={comment.id}>
                                 <div>Author: {comment.username}</div>
                                 <div className="fst-italic">{comment.text}</div>
@@ -101,7 +102,7 @@ const Comment = ({content}) => {
                             </div>
                         ))}
                     </div>
-                    <ModalComment postId={content.id}/>
+                    <ModalComment postId={post.id}/>
                 </Modal.Body>
             </Modal>
         </>
