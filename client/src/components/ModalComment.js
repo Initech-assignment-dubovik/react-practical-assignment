@@ -5,8 +5,9 @@ import {Form} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
 import {createComment, getAllPosts} from "../redux/api";
 import {rerenderAction} from "../redux/actions/postActions";
+import comment from "./Comment";
 
-const ModalComment = ({postId}) => {
+const ModalComment = ({post, setPost}) => {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -17,9 +18,12 @@ const ModalComment = ({postId}) => {
     const [text, setText] = useState('');
 
     function handleSave() {
-        createComment(text, postId, username)
-            .then(() => getAllPosts())
-            .then(() => dispatch(rerenderAction()))
+        createComment(text, post.id, username)
+            .then(newComment => {
+                const updatedComments = [...post.comments, newComment.result];
+                const newPost = { ...post, comments: updatedComments };
+                setPost(newPost);
+            })
             .then(() => handleClose());
     }
 

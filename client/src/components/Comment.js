@@ -102,7 +102,7 @@ const Comment = ({content}) => {
                             </div>
                         ))}
                     </div>
-                    <ModalComment postId={post.id}/>
+                    <ModalComment post={post} setPost={setPost}/>
                 </Modal.Body>
             </Modal>
         </>
