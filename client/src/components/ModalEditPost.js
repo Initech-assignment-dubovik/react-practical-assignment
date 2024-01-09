@@ -1,9 +1,8 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import {Form} from "react-bootstrap";
-import {useDispatch} from "react-redux";
-import {updatePost} from "../redux/api";
+import {updatePost, uploadPicture} from "../utils/api";
 
 const ModalEditPost = ({post, setPost}) => {
     const [show, setShow] = useState(false);
@@ -12,31 +11,45 @@ const ModalEditPost = ({post, setPost}) => {
 
     const [title, setTitle] = useState(post.title);
     const [picture, setPicture] = useState();
+    const [showImage, setShowImage] = useState('none')
 
-    const handleSave = () => {
+
+    useEffect(() => {
+        if (post.imageSrc) {
+            setShowImage('block');
+        }
+    }, [post.imageSrc]);
+
+
+    const handleSave = async () => {
         const newPost = {
             title: title
         };
+        let updatedPost;
+        await updatePost(post.id, newPost)
+            .then(data => {
+                if (data.success) {
+                    updatedPost = {...post, ...data.result};
+                }
+            })
         if (picture) {
-            console.log("Upload picture")
-        } else {
-            console.log("Don't upload picture")
+            await uploadPicture(post.id, picture)
+                .then(data => {
+                    if (data.success) {
+                        updatedPost = {...updatePost, ...data.result};
+                    }
+                })
+            setPost(updatedPost);
+            handleClose();
         }
-        console.log(newPost)
-        updatePost(post.id, newPost)
-            .then(data => data.result)
-            .then((data) => setPost({...post, ...data}))
-            .then(() => handleClose());
     }
 
     const displayImage = (newPicture) => {
         if (newPicture) {
             const reader = new FileReader();
-            console.log("In displayImage");
             reader.onload = function (e) {
                 const selectedImage = document.getElementById('selectedImage');
                 selectedImage.src = e.target.result;
-                console.log("Above set block");
                 selectedImage.style.display = 'block';
             };
 
@@ -46,8 +59,10 @@ const ModalEditPost = ({post, setPost}) => {
 
     return (
         <div>
-            <div role="button" className="text-decoration-underline" onClick={handleShow}>
-                edit
+            <div
+                role="button"
+                className="text-decoration-underline"
+                onClick={handleShow}>edit
             </div>
 
             <Modal
@@ -72,11 +87,12 @@ const ModalEditPost = ({post, setPost}) => {
                                 onChange={e => setTitle(e.target.value)}
                             />
                         </Form.Group>
+
                         <img
                             id="selectedImage"
-                            src="#"
                             alt="Selected Image"
-                            style={{display: 'none', maxHeight: '300px', margin: '0 auto'}}
+                            src={post.imageSrc || '#'}
+                            style={{display: showImage, maxHeight: '300px', margin: '0 auto'}}
                         />
                         <Form.Group controlId="formFile" className="mb-3">
                             <Form.Label>Image</Form.Label>
@@ -96,7 +112,9 @@ const ModalEditPost = ({post, setPost}) => {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={handleSave}>Update</Button>
+                    <Button variant="primary" onClick={handleSave}>
+                        Update
+                    </Button>
                 </Modal.Footer>
             </Modal>
         </div>

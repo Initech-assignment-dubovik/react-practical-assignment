@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { ADD_POST } from "../utils/constants";
 import { Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { createPost, uploadPicture } from "../redux/api";
+import { createPost, uploadPicture } from "../utils/api";
 import { putTotalAction } from "../redux/actions/postActions";
 
-const ModalPost = ({content}) => {
+const ModalPost = () => {
     const [show, setShow] = useState(false);
     const { total } = useSelector(state => state.post.postsInfo);
     const dispatch = useDispatch();
@@ -25,11 +24,25 @@ const ModalPost = ({content}) => {
         };
 
         createPost(post)
-            .then(data => data.result)
-            .then(post => uploadPicture(post.id, picture))
-            .then(() => dispatch(putTotalAction(total + 1)));
+            .then(data => {
+                if (data.success) {
+                    const id = data.result.id;
+                    if (picture) {
+                        uploadPicture(id, picture)
+                            .then(data => {
+                                if (data.success) {
+                                    dispatch(putTotalAction(total + 1));
+                                    setPicture(null);
+                                    handleClose();
+                                }
+                            })
+                    } else {
+                        dispatch(putTotalAction(total + 1));
+                        handleClose();
+                    }
+                }
+            })
 
-        handleClose();
     }
 
     const displayImage = (newPicture) => {
