@@ -11,8 +11,8 @@ export const createPost = (post) => {
         .then(response => response.json())
 }
 
-export const updatePost = (post) => {
-    return fetch(BASE_URL + POST + `${post.id}`, {
+export const updatePost = (id, post) => {
+    return fetch(BASE_URL + POST + `${id}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json"

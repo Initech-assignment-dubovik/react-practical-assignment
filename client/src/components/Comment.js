@@ -1,17 +1,21 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Stack} from "react-bootstrap";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {deleteComment, updateComment} from "../redux/api";
-import {rerenderAction} from "../redux/actions/postActions";
+import ModalComment from "./ModalComment";
+import {EDIT} from "../utils/constants";
 
 const Comment = ({comment, post, setPost}) => {
     const {username} = useSelector(state => state.user);
     const [currentComment, setCurrentComment] = useState(comment);
-    const dispatch = useDispatch();
+
+    useEffect(() => {
+        setCurrentComment(comment)
+    }, [comment]);
 
     function handleRemoveLike() {
-        comment.likes = comment.likes.filter(e => e !== username);
-        updateComment(comment)
+        currentComment.likes = currentComment.likes.filter(e => e !== username);
+        updateComment(currentComment)
             .then(data => {
                 console.log(data);
                 setCurrentComment(data.result);
@@ -19,10 +23,10 @@ const Comment = ({comment, post, setPost}) => {
     }
 
     function handleSetLike() {
-        comment.dislikes = comment.dislikes.filter(e => e !== username);
-        comment.likes = [...comment.likes, username];
-        console.log(comment);
-        updateComment(comment)
+        currentComment.dislikes = currentComment.dislikes.filter(e => e !== username);
+        currentComment.likes = [...currentComment.likes, username];
+        console.log(currentComment);
+        updateComment(currentComment)
             .then(data => {
                 console.log(data);
                 setCurrentComment(data.result);
@@ -30,8 +34,8 @@ const Comment = ({comment, post, setPost}) => {
     }
 
     function handleRemoveDislike() {
-        comment.dislikes = comment.dislikes.filter(e => e !== username);
-        updateComment(comment)
+        currentComment.dislikes = currentComment.dislikes.filter(e => e !== username);
+        updateComment(currentComment)
             .then(data => {
                 console.log(data);
                 setCurrentComment(data.result);
@@ -39,10 +43,10 @@ const Comment = ({comment, post, setPost}) => {
     }
 
     function handleSetDislike() {
-        comment.likes = comment.likes.filter(e => e !== username);
-        comment.dislikes = [...comment.dislikes, username];
-        console.log(comment);
-        updateComment(comment)
+        currentComment.likes = currentComment.likes.filter(e => e !== username);
+        currentComment.dislikes = [...currentComment.dislikes, username];
+        console.log(currentComment);
+        updateComment(currentComment)
             .then(data => {
                 console.log(data);
                 setCurrentComment(data.result);
@@ -50,14 +54,13 @@ const Comment = ({comment, post, setPost}) => {
     }
 
     function handleDeleteComment() {
-        console.log(comment.id);
-        deleteComment(comment.id)
+        console.log(currentComment.id);
+        deleteComment(currentComment.id)
             .then(() => {
                 let updatedComments = [...post.comments];
-                updatedComments = updatedComments.filter(e => e.id !== comment.id);
+                updatedComments = updatedComments.filter(e => e.id !== currentComment.id);
                 const newPost = { ...post, comments: updatedComments };
                 setPost(newPost);
-                // dispatch(rerenderAction());
             })
     }
 
@@ -71,7 +74,7 @@ const Comment = ({comment, post, setPost}) => {
                         <div
                             role="button"
                             className="p-2 ms-auto text-decoration-underline"
-                        >edit
+                        ><ModalComment key={"e" + currentComment.id} post={post} setPost={setPost} action={EDIT} comment={currentComment} setComment={setCurrentComment}/>
                         </div>
                         <div
                             role="button"

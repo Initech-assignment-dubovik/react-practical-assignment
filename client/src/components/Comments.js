@@ -4,10 +4,9 @@ import {useSelector} from "react-redux";
 import ModalComment from "./ModalComment";
 import Comment from "./Comment";
 
-const Comments = ({content}) => {
+const Comments = ({post, setPost}) => {
     const {username} = useSelector(state => state.user);
     const [show, setShow] = useState(false);
-    const [post, setPost] = useState(content);
 
     return (
         <>
@@ -31,7 +30,7 @@ const Comments = ({content}) => {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="w-100 overflow-hidden">
-                        <img className="w-100 object-fit-cover" style={{maxHeight: '300px'}} src={content.imageSrc}
+                        <img className="w-100 object-fit-cover" style={{maxHeight: '300px'}} src={post.imageSrc}
                              alt="Image"/>
                     </div>
                     <h5 className="pt-3">Comments:</h5>

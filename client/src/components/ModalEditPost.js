@@ -1,39 +1,32 @@
-import { useState } from 'react';
+import {useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { ADD_POST } from "../utils/constants";
-import { Form } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { createPost, uploadPicture } from "../redux/api";
-import { putTotalAction } from "../redux/actions/postActions";
+import {Form} from "react-bootstrap";
+import {useDispatch} from "react-redux";
+import {updatePost} from "../redux/api";
 
-const ModalPost = ({content}) => {
+const ModalEditPost = ({post, setPost}) => {
     const [show, setShow] = useState(false);
-    const { total } = useSelector(state => state.post.postsInfo);
-    const dispatch = useDispatch();
-
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-    const username = useSelector(state => state.user.username);
-    const [title, setTitle] = useState('');
-    const [picture, setPicture] = useState(null);
+
+    const [title, setTitle] = useState(post.title);
+    const [picture, setPicture] = useState();
 
     const handleSave = () => {
-        console.log(title);
-        console.log(username);
-        console.log(picture);
-
-        const post = {
-            title: title,
-            username: username
+        const newPost = {
+            title: title
         };
-
-        createPost(post)
+        if (picture) {
+            console.log("Upload picture")
+        } else {
+            console.log("Don't upload picture")
+        }
+        console.log(newPost)
+        updatePost(post.id, newPost)
             .then(data => data.result)
-            .then(post => uploadPicture(post.id, picture))
-            .then(() => dispatch(putTotalAction(total + 1)));
-
-        handleClose();
+            .then((data) => setPost({...post, ...data}))
+            .then(() => handleClose());
     }
 
     const displayImage = (newPicture) => {
@@ -53,9 +46,9 @@ const ModalPost = ({content}) => {
 
     return (
         <div>
-            <Button variant="primary" onClick={handleShow}>
-                Add post
-            </Button>
+            <div role="button" className="text-decoration-underline" onClick={handleShow}>
+                edit
+            </div>
 
             <Modal
                 show={show}
@@ -65,7 +58,7 @@ const ModalPost = ({content}) => {
                 centered
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Add new post</Modal.Title>
+                    <Modal.Title>Edit post</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
@@ -75,6 +68,7 @@ const ModalPost = ({content}) => {
                                 type="text"
                                 placeholder=""
                                 autoFocus
+                                value={title}
                                 onChange={e => setTitle(e.target.value)}
                             />
                         </Form.Group>
@@ -82,7 +76,7 @@ const ModalPost = ({content}) => {
                             id="selectedImage"
                             src="#"
                             alt="Selected Image"
-                            style={{ display: 'none', maxHeight: '300px', margin: '0 auto'}}
+                            style={{display: 'none', maxHeight: '300px', margin: '0 auto'}}
                         />
                         <Form.Group controlId="formFile" className="mb-3">
                             <Form.Label>Image</Form.Label>
@@ -102,11 +96,11 @@ const ModalPost = ({content}) => {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={handleSave}>Save</Button>
+                    <Button variant="primary" onClick={handleSave}>Update</Button>
                 </Modal.Footer>
             </Modal>
         </div>
     );
 }
 
-export default ModalPost;
+export default ModalEditPost;

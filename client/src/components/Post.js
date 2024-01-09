@@ -5,6 +5,7 @@ import {deletePost, updatePost} from "../redux/api";
 import {putPageAction, rerenderAction} from "../redux/actions/postActions";
 import {Stack} from "react-bootstrap";
 import Comments from "./Comments";
+import ModalEditPost from "./ModalEditPost";
 
 const Post = ({content, countPosts, currentPage}) => {
     const {username} = useSelector(state => state.user);
@@ -14,23 +15,23 @@ const Post = ({content, countPosts, currentPage}) => {
     function handleSetLike(event) {
         post.dislikes = post.dislikes.filter(e => e !== username);
         post.likes = [...post.likes, username];
-        updatePost(post).then(res => setPost(res.result));
+        updatePost(post.id, post).then(res => setPost(res.result));
     }
 
     function handleSetDislike(event) {
         post.likes = post.likes.filter(e => e !== username);
         post.dislikes = [...post.dislikes, username];
-        updatePost(post).then(res => setPost(res.result));
+        updatePost(post.id, post).then(res => setPost(res.result));
     }
 
     function handleRemoveLike(event) {
         post.likes = post.likes.filter(e => e !== username);
-        updatePost(post).then(res => setPost(res.result));
+        updatePost(post.id, post).then(res => setPost(res.result));
     }
 
     function handleRemoveDislike(event) {
         post.dislikes = post.dislikes.filter(e => e !== username);
-        updatePost(post).then(res => setPost(res.result));
+        updatePost(post.id, post).then(res => setPost(res.result));
     }
 
     function handleDeletePost() {
@@ -59,9 +60,9 @@ const Post = ({content, countPosts, currentPage}) => {
                 <div className="card-body">
                     <h5 className="card-title">{post.title} - {post.username}</h5>
                     <Stack direction="horizontal" gap={2}>
-                        <Comments key={post.id} content={post}/>
+                        <Comments key={post.id} post={post} setPost={setPost} />
                         {username === post.username && (<>
-                            <div role="button" className="p-2 ms-auto text-decoration-underline">edit</div>
+                            <div className="p-2 ms-auto"><ModalEditPost post={post} setPost={setPost}/></div>
                             <div role="button" className="p-2 text-decoration-underline"
                                  onClick={handleDeletePost}>delete
                             </div>
