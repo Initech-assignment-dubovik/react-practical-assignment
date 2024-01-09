@@ -1,4 +1,4 @@
-import {BASE_URL, COMMENT, PAGE, PICTURE, POST, SEARCH} from "../utils/constants";
+import {BASE_URL, COMMENT, PAGE, PICTURE, POST, SEARCH} from "./constants";
 
 export const createPost = (post) => {
     return fetch(BASE_URL + POST, {

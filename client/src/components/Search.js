@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import ModalPost from "./ModalPost";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {putKeywordAction} from "../redux/actions/postActions";
 
 const Search = () => {

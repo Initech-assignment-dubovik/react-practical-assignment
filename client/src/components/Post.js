@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import '../css/Post.css';
 import {useDispatch, useSelector} from "react-redux";
-import {deletePost, updatePost} from "../redux/api";
+import {deletePost, updatePost} from "../utils/api";
 import {putPageAction, rerenderAction} from "../redux/actions/postActions";
 import {Stack} from "react-bootstrap";
 import Comments from "./Comments";
@@ -26,24 +26,24 @@ const Post = ({content, countPosts, currentPage}) => {
             });
     }
 
-    function handleSetLike(event) {
+    function handleSetLike() {
         post.dislikes = post.dislikes.filter(e => e !== username);
         post.likes = [...post.likes, username];
         updateCurrentPost();
     }
 
-    function handleSetDislike(event) {
+    function handleSetDislike() {
         post.likes = post.likes.filter(e => e !== username);
         post.dislikes = [...post.dislikes, username];
         updateCurrentPost();
     }
 
-    function handleRemoveLike(event) {
+    function handleRemoveLike() {
         post.likes = post.likes.filter(e => e !== username);
         updateCurrentPost();
     }
 
-    function handleRemoveDislike(event) {
+    function handleRemoveDislike() {
         post.dislikes = post.dislikes.filter(e => e !== username);
         updateCurrentPost();
     }
@@ -87,7 +87,7 @@ const Post = ({content, countPosts, currentPage}) => {
                     <div className="hstack">
                         <div>
                             <small
-                                className="text-body-secondary">{new Date(+post.date).toString().slice(0, 24)}</small>
+                                className="text-body-secondary">{new Date(+post.date).toLocaleString()}</small>
                         </div>
                         {post.likes.includes(username) ?
                             <RemoveLike removeLike={handleRemoveLike}/> :

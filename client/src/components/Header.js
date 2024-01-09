@@ -1,11 +1,10 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {loginUser} from "../redux/actions/userActions";
-import {putPageAction, putPostsAction} from "../redux/actions/postActions";
+import {putPageAction} from "../redux/actions/postActions";
 
 const Header = () => {
     const {username} = useSelector(state => state.user);
-    const {postsInfo} = useSelector(state => state.post);
     const dispatch = useDispatch()
 
     const handleLogout = () => {

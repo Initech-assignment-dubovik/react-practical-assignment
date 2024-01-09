@@ -1,11 +1,9 @@
 import React, {useState} from 'react';
 import Modal from "react-bootstrap/Modal";
-import {useSelector} from "react-redux";
 import ModalComment from "./ModalComment";
 import Comment from "./Comment";
 
 const Comments = ({post, setPost}) => {
-    const {username} = useSelector(state => state.user);
     const [show, setShow] = useState(false);
 
     return (

@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import Post from "./Post";
 import {useDispatch, useSelector} from "react-redux";
 import {putPostsAction} from "../redux/actions/postActions";
-import {getPostsByPage, searchPosts} from "../redux/api";
+import {getPostsByPage, searchPosts} from "../utils/api";
 
 const Gallery = () => {
     const {posts, page, total, keyword} = useSelector(state => state.post.postsInfo);

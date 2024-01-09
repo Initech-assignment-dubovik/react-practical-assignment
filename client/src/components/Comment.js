@@ -1,9 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Stack} from "react-bootstrap";
 import {useSelector} from "react-redux";
-import {deleteComment, updateComment} from "../redux/api";
+import {deleteComment, updateComment} from "../utils/api";
 import ModalComment from "./ModalComment";
-import {EDIT} from "../utils/constants";
 import RemoveLike from "./likes/RemoveLike";
 import SetLike from "./likes/SetLike";
 import RemoveDislike from "./likes/RemoveDislike";
@@ -67,7 +66,7 @@ const Comment = ({comment, post, setPost}) => {
                             className="p-2 ms-auto text-decoration-underline"
                         ><ModalComment
                             key={currentComment.id}
-                            post={post} setPost={setPost} action={EDIT}
+                            post={post} setPost={setPost} edit={true}
                             comment={currentComment} setComment={setCurrentComment}/>
                         </div>
                         <div

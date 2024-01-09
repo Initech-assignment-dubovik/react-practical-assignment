@@ -1,4 +1,3 @@
-import * as PropTypes from "prop-types";
 import React from "react";
 
 function RemoveLike({removeLike}) {

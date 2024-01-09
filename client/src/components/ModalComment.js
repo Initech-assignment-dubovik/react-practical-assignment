@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import {Form} from "react-bootstrap";
-import {useDispatch, useSelector} from "react-redux";
-import {createComment, updateComment} from "../redux/api";
+import {useSelector} from "react-redux";
+import {createComment, updateComment} from "../utils/api";
 
 const ModalComment = ({post, setPost, action, comment, setComment}) => {
     const [show, setShow] = useState(false);
@@ -11,7 +11,6 @@ const ModalComment = ({post, setPost, action, comment, setComment}) => {
     const handleShow = ({}) => setShow(true);
 
     const username = useSelector(state => state.user.username);
-    const dispatch = useDispatch();
 
     const [text, setText] = useState(action ? comment.text : '');
 
@@ -42,7 +41,6 @@ const ModalComment = ({post, setPost, action, comment, setComment}) => {
         <div>
             <div
                 role="button"
-                // className="bg-body-secondary p-2 m-2 text-decoration-underline text-center"
                 onClick={handleShow}>{action ? "edit" : "Add comment"}
             </div>
             <Modal
