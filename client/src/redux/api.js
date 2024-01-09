@@ -9,6 +9,7 @@ export const createPost = (post) => {
         body: JSON.stringify(post)
     })
         .then(response => response.json())
+        .catch(error => console.log(error));
 }
 
 export const updatePost = (id, post) => {
@@ -20,16 +21,19 @@ export const updatePost = (id, post) => {
         body: JSON.stringify(post)
     })
         .then(resp => resp.json())
+        .catch(error => console.log(error));
 }
 
 export const searchPosts = (keyword) => {
     return fetch(`${BASE_URL}${POST}${SEARCH}${keyword}`)
         .then(response => response.json())
+        .catch(error => console.log(error));
 }
 
 export const getPostsByPage = (page) => {
     return fetch(`${BASE_URL}${POST}${PAGE}${page}`)
         .then(response => response.json())
+        .catch(error => console.log(error));
 }
 
 export const deletePost = (id) => {
@@ -37,16 +41,18 @@ export const deletePost = (id) => {
         method: "DELETE"
     })
         .then(response => response.json())
+        .catch(error => console.log(error));
 }
 
 export const uploadPicture = (id, picture) => {
     const formData = new FormData();
     formData.append("picture", picture);
-    return fetch(BASE_URL+POST+id+PICTURE, {
+    return fetch(BASE_URL + POST + id + PICTURE, {
         method: "POST",
         body: formData
     })
         .then(response => response.json())
+        .catch(error => console.log(error));
 }
 
 export const createComment = (text, postId, username) => {
@@ -59,6 +65,7 @@ export const createComment = (text, postId, username) => {
         body: JSON.stringify(newComment)
     })
         .then(response => response.json())
+        .catch(error => console.log(error));
 }
 
 export const updateComment = (comment) => {
@@ -69,7 +76,8 @@ export const updateComment = (comment) => {
         },
         body: JSON.stringify(comment)
     })
-        .then(response => response.json());
+        .then(response => response.json())
+        .catch(error => console.log(error));
 }
 
 export const deleteComment = (id) => {
@@ -77,24 +85,29 @@ export const deleteComment = (id) => {
         method: "DELETE"
     })
         .then(response => response.json())
+        .catch(error => console.log(error));
 }
 
 export const getPosts = () => {
     return fetch(`${BASE_URL}${POST}`)
         .then(response => response.json())
+        .catch(error => console.log(error));
 }
 
 export const getPost = (id) => {
     return fetch(`${BASE_URL}${POST}${id}`)
         .then(response => response.json())
+        .catch(error => console.log(error));
 }
 
 export const getComment = (id) => {
     return fetch(`${BASE_URL}${COMMENT}${id}`)
         .then(response => response.json())
+        .catch(error => console.log(error));
 }
 
 export const getComments = () => {
     return fetch(`${BASE_URL}${COMMENT}`)
         .then(response => response.json())
+        .catch(error => console.log(error));
 }
