@@ -5,7 +5,6 @@ import {putKeywordAction} from "../redux/actions/postActions";
 
 const Search = () => {
     const [searchText, setSearchText] = useState('');
-    const {keyword} = useSelector(state => state.post.postsInfo)
     const dispatch = useDispatch();
 
     const handleKeyDown = (event) => {
@@ -28,7 +27,6 @@ const Search = () => {
                     <ModalPost/>
                     <input className="form-control me-2 w-25" type="search" placeholder="Search" aria-label="Search"
                            onChange={handleChange}
-                           onReset={handleChange}
                            onKeyDown={handleKeyDown}
                     />
                 </div>
